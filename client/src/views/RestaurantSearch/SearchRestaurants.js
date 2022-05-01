@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; 
 import { StatusCodes as HttpStatus } from 'http-status-codes';
+import RestaurantList from './RestaurantList';
 
 const BASE_URL = 'http://localhost:8080';
 const SEARCH_RESTAURANTS_BY_CITY_URL = '/api/v1/restaurants';
@@ -12,6 +13,7 @@ const getRestaurantsByCity = async (city) => {
 const SearchRestaurants = () => {
 	const [searchInput, setSearchInput] = useState('');
 	const [searchResults, setSearchResults] = useState([]);
+	const [city, setCity] = useState('');
 
 	// TODO: valmis lista Suomen kunnista, josta ehdotukset
 	// vapaasanahaun perusteella?
@@ -23,6 +25,8 @@ const SearchRestaurants = () => {
 				if (response?.status === HttpStatus.OK
 					&& response?.data) {
 					setSearchResults(response.data.restaurants || []);
+					setCity(searchInput);
+					setSearchInput('');
 				} else {
 					// Tietojen haku ei onnistunut
 				}
@@ -45,6 +49,12 @@ const SearchRestaurants = () => {
 				/>
 				<input type="submit" value="Hae"/>
 			</form>
+			{searchResults.length > 0 &&
+				<RestaurantList 
+					restaurants={searchResults}
+					city={city}
+				/>
+			}
 		</div>
 	);
 };
