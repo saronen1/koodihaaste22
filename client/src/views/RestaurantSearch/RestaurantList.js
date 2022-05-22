@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RestaurantItem from './RestaurantItem';
 
-const RestaurantList = ({ restaurants, city }) => {
+const RestaurantList = ({ restaurants, votedRestaurantId, setVotedRestaurantId, city }) => {
 	return (
 		<div>
 			<p>Hakutulokset kaupungille {city}:</p>
@@ -11,7 +11,10 @@ const RestaurantList = ({ restaurants, city }) => {
 					return (
 						<li key={restaurant.id}>
 							<RestaurantItem
-								restaurant={restaurant}/>
+								restaurant={restaurant}
+								votedRestaurantId={votedRestaurantId}
+								setVotedRestaurantId={setVotedRestaurantId}
+							/>
 						</li>
 					);
 				})}
@@ -22,6 +25,8 @@ const RestaurantList = ({ restaurants, city }) => {
 
 RestaurantList.propTypes = {
 	restaurants: PropTypes.array,
+	votedRestaurantId: PropTypes.string,
+	setVotedRestaurantId: PropTypes.func,
 	city: PropTypes.string,
 };
 
