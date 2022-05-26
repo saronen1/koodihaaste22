@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TODAYS_VOTING_RESULTS_URL } from '../../utils/apiUrls';
+import { TODAYS_VOTING_RESULTS_URL } from '../../utils/constants';
 import client from '../../utils/client';
 import { StatusCodes as HttpStatus } from 'http-status-codes';
 

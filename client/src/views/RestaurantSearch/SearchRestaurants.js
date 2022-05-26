@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { StatusCodes as HttpStatus } from 'http-status-codes';
-import { SEARCH_RESTAURANTS_BY_CITY_URL } from '../../utils/apiUrls';
+import { SEARCH_RESTAURANTS_BY_CITY_URL, cities } from '../../utils/constants';
 import client from '../../utils/client';
 import RestaurantList from './RestaurantList';
+import { Autocomplete, Button, TextField } from '@mui/material';
 
 const getRestaurantsByCity = async (city) => {
 	return client.get(`${SEARCH_RESTAURANTS_BY_CITY_URL}/${city}`);
 };
 
 const SearchRestaurants = () => {
-	const [searchInput, setSearchInput] = useState('');
+	const [searchInput, setSearchInput] = useState(null);
 	const [searchResults, setSearchResults] = useState([]);
 	const [city, setCity] = useState('');
 	const [votedRestaurantId, setVotedRestaurantId] = useState();
@@ -26,7 +27,7 @@ const SearchRestaurants = () => {
 					setSearchResults(response.data.restaurants || []);
 					setVotedRestaurantId(response.data.alreadyVoted || null);
 					setCity(searchInput);
-					setSearchInput('');
+					setSearchInput(null);
 				} else {
 					// Tietojen haku ei onnistunut
 				}
@@ -41,14 +42,23 @@ const SearchRestaurants = () => {
 	return (
 		<div>
 			<p>Syötä kaupunki:</p>
-			<form onSubmit={searchRestaurantsByCity}>
-				<input 
-					type="text"
-					value={searchInput}
-					onChange={(e) => setSearchInput(e.target.value)}
-				/>
-				<input type="submit" value="Hae"/>
-			</form>
+			<Autocomplete
+				id="restaurant-city-search"
+				value={searchInput}
+				onChange={(event, newValue) => setSearchInput(newValue)}
+				options={cities}
+				getOptionLabel={(option) => option}
+				renderInput={(params) => 
+					<TextField {...params} label="Hae kaupunkia..."/>
+				}
+				noOptionsText="Ei tuloksia"
+			/>
+			<Button 
+				onClick={searchRestaurantsByCity}
+				variant="contained"
+			>
+					Hae
+			</Button>
 			{searchResults.length > 0 &&
 				<RestaurantList 
 					restaurants={searchResults}

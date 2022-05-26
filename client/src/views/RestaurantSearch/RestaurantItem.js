@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { VOTE_RESTAURANT_URL } from '../../utils/apiUrls';
+import { VOTE_RESTAURANT_URL } from '../../utils/constants';
 import client from '../../utils/client';
 
 const RestaurantItem = ({ restaurant, votedRestaurantId, setVotedRestaurantId }) => {
