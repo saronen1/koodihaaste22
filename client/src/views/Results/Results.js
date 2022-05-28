@@ -17,7 +17,7 @@ const Results = () => {
 				if (response.status === HttpStatus.OK) {
 					setResults(response.data?.results);
 				} else {
-					// error occurred
+					// unexpected reply
 				}
 			})
 			.catch((error) => {
@@ -35,10 +35,12 @@ const Results = () => {
 	// Updates results every 10 seconds
 	useEffect(() => {
 		console.log('Second use effect');
-		setInterval(() => {
+		const timer = setInterval(() => {
 			console.log('Another interval');
 			updateResults();
 		}, 10000);
+		// stops updating results when component unmounts
+		return () => clearInterval(timer);
 	}, []);
 
 	return (
