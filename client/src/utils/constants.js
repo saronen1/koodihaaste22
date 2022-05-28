@@ -314,5 +314,4 @@ export const cities = [
 	'Ypäjä',
 	'Ähtäri',
 	'Äänekoski',
-	'',
 ];
